@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Ingresar{% endblock %}
+{% block content %}
+<form method="post" class="login-card">
+  <h1>💬 {{ business_name }}</h1>
+  <p class="muted">CRM de WhatsApp</p>
+  <label>Contraseña
+    <input type="password" name="password" autofocus required>
+  </label>
+  {% if error %}<p class="err">{{ error }}</p>{% endif %}
+  <button class="btn primary block">Ingresar</button>
+  {% if default_pw %}<p class="hint">Contraseña local por defecto: <code>admin123</code> (cámbiala con ADMIN_PASSWORD)</p>{% endif %}
+</form>
+{% endblock %}

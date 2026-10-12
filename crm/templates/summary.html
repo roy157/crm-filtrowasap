@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Resumen{% endblock %}
+{% block content %}
+<div class="summary">
+  <div id="kpis" class="kpis"></div>
+  <div class="summary-grid">
+    <section class="card">
+      <h3>Embudo de ventas</h3>
+      <p class="hint">Clientes en cada etapa. Haz clic para verlos en la bandeja.</p>
+      <div id="funnel" class="funnel"></div>
+    </section>
+    <section class="card">
+      <h3>Flujos más usados <small class="muted">(últimos 30 días, mensajes enviados)</small></h3>
+      <div id="flows-usage"></div>
+    </section>
+  </div>
+  <section class="card">
+    <h3>📣 Resultados por anuncio</h3>
+    <p class="hint">Cada cliente que llega desde un anuncio de clic a WhatsApp queda asociado a ese anuncio.</p>
+    <div class="table-wrap"><table class="table" id="ads"></table></div>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/summary.js') }}"></script>{% endblock %}

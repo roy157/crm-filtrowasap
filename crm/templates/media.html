@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Imágenes{% endblock %}
+{% block content %}
+<div class="media-page">
+  <section class="card designer">
+    <div class="row between"><h3>🎨 Diseñador de promociones</h3>
+      <div class="presets" id="presets"></div></div>
+    <div class="designer-grid">
+      <div class="designer-form">
+        <label class="f"><span class="f-label">Formato</span>
+          <select id="d-format">
+            <option value="square">Cuadrado 1080×1080 · WhatsApp y feed</option>
+            <option value="portrait">Vertical 1080×1350 · feed de Facebook/Instagram</option>
+            <option value="story">Historia 1080×1920 · stories y reels</option>
+          </select></label>
+        <label class="f"><span class="f-label">Marca (arriba)</span><input id="d-brand"></label>
+        <label class="f"><span class="f-label">Etiqueta destacada</span><input id="d-badge" placeholder="🔥 SOLO HOY"></label>
+        <label class="f"><span class="f-label">Título</span><textarea id="d-title" rows="2"></textarea></label>
+        <label class="f"><span class="f-label">Subtítulo</span><textarea id="d-subtitle" rows="2"></textarea></label>
+        <div class="row">
+          <label class="f grow"><span class="f-label">Precio antes (tachado)</span><input id="d-old" placeholder="S/10"></label>
+          <label class="f grow"><span class="f-label">Precio ahora</span><input id="d-new" placeholder="S/5"></label>
+        </div>
+        <label class="f"><span class="f-label">Llamado a la acción (abajo)</span><input id="d-cta"></label>
+        <div class="row">
+          <label class="f"><span class="f-label">Fondo</span><input id="d-bg" type="color" value="#0b8457"></label>
+          <label class="f"><span class="f-label">Acento</span><input id="d-accent" type="color" value="#ffd60a"></label>
+          <label class="f"><span class="f-label">Texto</span><input id="d-text" type="color" value="#ffffff"></label>
+        </div>
+        <div class="f">
+          <span class="f-label">Foto de fondo (opcional)</span>
+          <div class="row">
+            <label class="btn small">📁 Desde mi PC<input id="d-photo" type="file" accept="image/*" hidden></label>
+            <button id="d-photo-lib" class="btn small" type="button">🖼️ De la biblioteca</button>
+            <button id="d-photo-clear" class="btn small ghost" type="button">Quitar</button>
+          </div>
+        </div>
+        <label class="f"><span class="f-label">Oscurecer la foto <span id="d-dark-v"></span></span><input id="d-dark" type="range" min="0" max="85" value="45"></label>
+      </div>
+      <div class="designer-canvas">
+        <canvas id="d-canvas" width="1080" height="1080"></canvas>
+        <div class="row">
+          <input id="d-name" class="grow" placeholder="Nombre en la biblioteca (ej. Promo S/5)">
+          <button id="d-save" class="btn primary">💾 Guardar en biblioteca</button>
+          <button id="d-download" class="btn">⬇ Descargar para anuncio</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="row between">
+      <h3>🖼️ Biblioteca</h3>
+      <span id="storage-mode" class="badge"></span>
+    </div>
+    <label id="dropzone" class="dropzone">
+      <input id="files" type="file" accept="image/jpeg,image/png,application/pdf" multiple hidden>
+      <b>Arrastra aquí tus fotos o haz clic para subir</b>
+      <span class="muted small">JPG o PNG hasta 5 MB · PDF hasta 16 MB (es lo que acepta WhatsApp)</span>
+    </label>
+    <div id="library" class="media-grid"></div>
+  </section>
+
+  <section class="card tips">
+    <h3>📣 ¿Y el anuncio?</h3>
+    <ol>
+      <li>Diseña aquí la imagen y pulsa <b>Descargar para anuncio</b>.</li>
+      <li>En el <b>Administrador de anuncios</b> de Meta crea una campaña de <b>Interacción</b> o <b>Ventas</b> y como destino elige <b>WhatsApp</b>, con tu fanpage y tu número.</li>
+      <li>Sube la imagen y escribe el texto. Puedes poner un <b>mensaje prellenado</b> (ej. «Hola, quiero mi reporte»).</li>
+      <li>Cuando alguien haga clic, el bot envía el flujo con el disparador <b>📣 Clic en un anuncio</b>. Los resultados de cada anuncio aparecen en <a href="{{ url_for('panel.summary') }}">📊 Resumen</a>.</li>
+    </ol>
+    <p class="hint">Para usar la imagen dentro del chat, en <a href="{{ url_for('panel.flows') }}">🤖 Flujos</a> agrega un paso «Imagen» y elígela de la biblioteca.</p>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/media.js') }}"></script>{% endblock %}

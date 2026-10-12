@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Bandeja{% endblock %}
+{% block content %}
+<div class="crm">
+  <aside class="col contacts-col">
+    <div class="col-head">
+      <input id="search" type="search" placeholder="Buscar nombre o número…">
+      <div id="stage-filter" class="chips"></div>
+    </div>
+    <div id="contact-list" class="contact-list"></div>
+  </aside>
+
+  <section class="col chat-col">
+    <div id="chat-empty" class="empty">
+      <div class="empty-icon">💬</div>
+      <p>Selecciona una conversación.</p>
+      <p class="muted">¿Aún no hay chats? Abre el <a href="{{ url_for('panel.simulator') }}">Simulador</a> y escribe como si fueras un cliente.</p>
+    </div>
+    <div id="chat" class="chat hidden">
+      <div class="chat-head">
+        <button id="back" class="btn ghost back" title="Volver">←</button>
+        <div class="grow">
+          <div id="chat-name" class="title"></div>
+          <div id="chat-sub" class="sub"></div>
+        </div>
+        <span id="window-badge" class="badge"></span>
+      </div>
+      <div id="messages" class="chat-body"></div>
+      <form id="composer" class="composer">
+        <label class="pause" title="Al responder tú, el bot deja de contestar a este cliente">
+          <input type="checkbox" id="pause-on-send" checked> Pausar bot
+        </label>
+        <textarea id="composer-text" rows="1" placeholder="Escribe una respuesta manual… (Enter envía)"></textarea>
+        <button class="btn primary">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <aside class="col detail-col">
+    <div id="detail" class="detail hidden">
+      <div class="card">
+        <h3>Contacto</h3>
+        <label>Nombre <input id="f-name"></label>
+        <label>Etapa <select id="f-stage"></select></label>
+        <label>Etiquetas <small class="muted">(separadas por coma)</small> <input id="f-tags"></label>
+        <label>Notas <textarea id="f-notes" rows="3"></textarea></label>
+        <button id="save-contact" class="btn">Guardar</button>
+      </div>
+      <div class="card">
+        <h3>Bot</h3>
+        <div id="bot-state" class="bot-state"></div>
+        <button id="toggle-bot" class="btn"></button>
+      </div>
+      <div class="card">
+        <h3>Enviar un flujo</h3>
+        <div class="row"><select id="flow-select" class="grow"></select><button id="run-flow" class="btn">Enviar</button></div>
+      </div>
+      <div class="card">
+        <h3>Seguimientos</h3>
+        <div id="sched-list" class="sched-list"></div>
+      </div>
+      <div class="card">
+        <h3>Datos capturados</h3>
+        <div id="vars"></div>
+      </div>
+      <button id="delete-contact" class="btn danger ghost block">Eliminar contacto</button>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/panel.js') }}"></script>{% endblock %}

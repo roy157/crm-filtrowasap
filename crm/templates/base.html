@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}CRM WhatsApp{% endblock %} · {{ business_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body class="page-{{ page|default('login') }}" data-business="{{ business_name }}">
+  {% if session.get('auth') %}
+  <header class="topbar">
+    <span class="brand">💬 {{ business_name }} CRM</span>
+    <nav>
+      <a href="{{ url_for('panel.summary') }}" class="{{ 'active' if page == 'resumen' }}">📊 Resumen</a>
+      <a href="{{ url_for('panel.inbox') }}" class="{{ 'active' if page == 'panel' }}">💬 Bandeja</a>
+      <a href="{{ url_for('panel.flows') }}" class="{{ 'active' if page == 'flujos' }}">🤖 Flujos</a>
+      <a href="{{ url_for('panel.images') }}" class="{{ 'active' if page == 'imagenes' }}">🖼️ Imágenes</a>
+      <a href="{{ url_for('panel.simulator') }}" class="{{ 'active' if page == 'simulador' }}">📱 Simulador</a>
+    </nav>
+    <span class="mode {{ wa_mode }}" title="Cambia WA_MODE en el .env">
+      {{ 'Cloud API (real)' if wa_mode == 'cloud' else 'Modo simulador' }}
+    </span>
+    <a href="{{ url_for('panel.logout') }}" class="logout">Salir</a>
+  </header>
+  {% endif %}
+  <main>{% block content %}{% endblock %}</main>
+  <div id="toast" class="toast"></div>
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

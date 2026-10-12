@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Flujos{% endblock %}
+{% block content %}
+<div class="flows">
+  <aside class="col flow-list-col">
+    <div class="col-head"><button id="new-flow" class="btn primary block">+ Nuevo flujo</button></div>
+    <div id="flow-list" class="flow-list"></div>
+    <div class="col-foot"><button id="reset-flows" class="btn ghost block small">Restaurar flujos de ejemplo</button></div>
+  </aside>
+
+  <section class="flow-editor">
+    <div class="editor-head">
+      <input id="fl-name" class="name-input" placeholder="Nombre del flujo (ej. Promo de verano)">
+      <label class="switch" title="Si está apagado, el bot no lo usa"><input id="fl-active" type="checkbox" checked><span></span> Activo</label>
+      <button id="save-flow" class="btn primary">💾 Guardar</button>
+      <div class="dropdown">
+        <button class="btn" data-dd>⋯</button>
+        <div class="dd-menu">
+          <button id="dup-flow">📑 Duplicar</button>
+          <button id="json-toggle">{ } Ver / editar JSON</button>
+          <button id="del-flow" class="danger">🗑 Eliminar</button>
+        </div>
+      </div>
+    </div>
+    <input id="fl-description" class="desc-input" placeholder="¿Para qué sirve este flujo? (opcional)">
+
+    <div id="visual-editor">
+      <div class="card section">
+        <h3><span class="num">1</span> ¿Cuándo se activa?</h3>
+        <div id="ev-box" class="ev-grid"></div>
+        <div class="field-title">Cuando el cliente escribe alguna de estas palabras</div>
+        <div id="kw-box" class="tag-input"></div>
+        <p class="hint">Escribe y pulsa Enter. No importan mayúsculas ni tildes («cuanto» también detecta «¿Cuánto?»).</p>
+        <details class="adv">
+          <summary>Opciones avanzadas</summary>
+          <label>Prioridad <small class="muted">— si dos flujos coinciden, gana el número mayor</small>
+            <input id="fl-priority" type="number" style="max-width:120px"></label>
+          <div class="field-title">Solo para estos anuncios (ID del anuncio). Vacío = cualquier anuncio</div>
+          <div id="ad-box" class="tag-input"></div>
+          <div class="field-title">IDs de botón que abren este flujo</div>
+          <div id="btn-box" class="tag-input"></div>
+          <div class="field-title">Patrones (regex). Los grupos con nombre se guardan como datos: <code>(?P&lt;placa&gt;…)</code></div>
+          <div id="rx-box" class="tag-input"></div>
+        </details>
+      </div>
+
+      <div class="card section">
+        <h3><span class="num">2</span> Mensajes que envía <small class="muted">— en orden, uno debajo de otro</small></h3>
+        <div id="steps-box"></div>
+      </div>
+
+      <div class="card section">
+        <h3><span class="num">3</span> Seguimientos automáticos <small class="muted">— ej. «bajó a S/5» 30 min después</small></h3>
+        <div id="fu-box"></div>
+        <button id="add-fu" class="btn">+ Agregar seguimiento</button>
+        <p class="hint">Se cancelan solos si el cliente paga, pide asesor, dice «no me interesa» o si pausas el bot. Pasadas 24 h desde el último mensaje del cliente, Meta solo permite <b>plantillas</b>.</p>
+      </div>
+    </div>
+
+    <div id="json-editor" class="hidden">
+      <p class="hint">Modo avanzado. Vuelve a «Ver / editar JSON» para regresar al editor visual.</p>
+      <label>Disparadores<textarea id="js-triggers" class="code" rows="6" spellcheck="false"></textarea></label>
+      <label>Pasos<textarea id="js-steps" class="code" rows="18" spellcheck="false"></textarea></label>
+      <label>Seguimientos<textarea id="js-followups" class="code" rows="12" spellcheck="false"></textarea></label>
+    </div>
+  </section>
+
+  <aside class="flow-preview">
+    <div class="phone small-phone">
+      <div class="phone-head"><div class="avatar">🚗</div><div><div class="title">{{ business_name }}</div><div class="sub">Vista previa</div></div></div>
+      <div id="preview" class="chat-body phone-body"></div>
+    </div>
+    <p class="hint center">Así lo verá el cliente (con datos de ejemplo: Carlos, placa ABC-123).<br>
+      Pruébalo de verdad en el <a href="{{ url_for('panel.simulator') }}">📱 Simulador</a>.</p>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/flows.js') }}"></script>{% endblock %}

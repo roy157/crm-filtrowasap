@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Simulador{% endblock %}
+{% block content %}
+<div class="sim">
+  <div class="sim-phone-wrap">
+    <div class="phone">
+      <div class="phone-head">
+        <div class="avatar">🚗</div>
+        <div class="grow">
+          <div class="title">{{ business_name }}</div>
+          <div id="typing" class="sub">en línea</div>
+        </div>
+      </div>
+      <div id="sim-messages" class="chat-body phone-body">
+        <div class="sim-hint">Pulsa <b>📣 Simular clic en anuncio</b> o escribe un mensaje como si fueras el cliente.</div>
+      </div>
+      <div id="quick" class="quick"></div>
+      <form id="sim-form" class="composer">
+        <input id="sim-text" placeholder="Escribe como cliente…" autocomplete="off">
+        <button class="btn primary round" title="Enviar">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="sim-side">
+    <div class="card">
+      <h3>Cliente simulado</h3>
+      <div class="row">
+        <label class="grow">Número <input id="sim-phone" value="51987654321"></label>
+        <label class="grow">Nombre de perfil <input id="sim-name" value="Carlos Pérez"></label>
+      </div>
+      <div class="btn-grid">
+        <button id="sim-ad" class="btn primary">📣 Simular clic en anuncio</button>
+        <button id="sim-image" class="btn">📷 Enviar captura de pago</button>
+        <button id="sim-expire" class="btn" title="Simula que pasaron 25 h sin que el cliente escriba">🕐 Cerrar ventana 24 h</button>
+        <button id="sim-reset" class="btn danger ghost">🗑 Reiniciar chat</button>
+      </div>
+      <p class="muted small">Los contactos simulados nunca llaman a Meta, aunque estés en modo Cloud API.</p>
+    </div>
+
+    <div class="card">
+      <div class="row between"><h3>Seguimientos programados</h3>
+        <button id="sim-ff" class="btn small">⏩ Adelantar el siguiente</button></div>
+      <div id="sim-sched" class="sched-list"><p class="muted small">Aún no hay seguimientos.</p></div>
+    </div>
+
+    <div class="card">
+      <div class="row between"><h3>En el CRM</h3><a href="{{ url_for('panel.inbox') }}" class="small">Abrir bandeja →</a></div>
+      <div id="sim-contact"><p class="muted small">El contacto se crea con el primer mensaje.</p></div>
+    </div>
+
+    <div class="card">
+      <h3 id="json-title">JSON</h3>
+      <p class="muted small">Haz clic en un globo del bot para ver el JSON que se envía a la Cloud API.</p>
+      <pre id="json-view" class="json">Envía un mensaje para ver el webhook que Meta mandaría a tu servidor.</pre>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/simulator.js') }}"></script>{% endblock %}
